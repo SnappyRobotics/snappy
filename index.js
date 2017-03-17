@@ -1,5 +1,3 @@
-"use strict";
-
 const http = require('http')
 const express = require("express")
 const path = require('path')
@@ -7,32 +5,26 @@ const path = require('path')
 const RED = require("node-red")
 
 // Create an Express app
-let app = express()
+var app = express()
+
+
+
 
 // Add a simple route for static content served from 'public'
 app.use("/", express.static("public"))
 
-// Create a server
-let server = http.createServer(app)
 
-// Create the settings object - see default settings.js file for other options
-let settings = {
-  httpAdminRoot: "/red",
-  httpNodeRoot: "/api",
-  userDir: path.join(__dirname, "userDir", "red"),
-  functionGlobalContext: {} // enables global context
-}
 
-// Initialise the runtime with a server and settings
-RED.init(server, settings)
+// ================================= RED =======================================
+var red_settings = require(path.join(__dirname, 'data', 'red-settings'))
 
-// Serve the editor UI from /red
-app.use(settings.httpAdminRoot, RED.httpAdmin)
+var server = http.createServer(app) // Create a server
 
-// Serve the http nodes UI from /api
-app.use(settings.httpNodeRoot, RED.httpNode)
+RED.init(server, red_settings) // Initialise the runtime with a server and settings
+
+app.use(red_settings.httpAdminRoot, RED.httpAdmin) // Serve the editor UI from /red
+app.use(red_settings.httpNodeRoot, RED.httpNode) // Serve the http nodes UI from /api
 
 server.listen(8000)
 
-// Start the runtime
-RED.start()
+RED.start() // Start the runtime
