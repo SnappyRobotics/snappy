@@ -19,7 +19,7 @@ let server = http.createServer(app)
 let settings = {
   httpAdminRoot: "/red",
   httpNodeRoot: "/api",
-  userDir: "/home/prajankya/.nodered/",
+  userDir: path.join(__dirname, "userDir", "red"),
   functionGlobalContext: {} // enables global context
 }
 
