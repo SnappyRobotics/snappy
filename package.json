@@ -20,5 +20,9 @@
   "bugs": {
     "url": "https://github.com/SnappyRobotics/snappy/issues"
   },
-  "homepage": "https://github.com/SnappyRobotics/snappy#readme"
+  "homepage": "https://github.com/SnappyRobotics/snappy#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "node-red": "^0.16.2"
+  }
 }
