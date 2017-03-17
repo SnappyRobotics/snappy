@@ -1,0 +1,24 @@
+{
+  "name": "snappy",
+  "version": "1.0.0",
+  "description": "Node-RED based Robotics Programming software backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SnappyRobotics/snappy.git"
+  },
+  "keywords": [
+    "snappy",
+    "robotics",
+    "node-red"
+  ],
+  "author": "prajankya",
+  "license": "LGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/SnappyRobotics/snappy/issues"
+  },
+  "homepage": "https://github.com/SnappyRobotics/snappy#readme"
+}
