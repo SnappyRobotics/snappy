@@ -29,6 +29,7 @@
     "node-red": "^0.16.2",
     "node-red-contrib-gpio": "^0.9.2",
     "path": "^0.12.7",
+    "snappy-io-nodes": "github:snappyrobotics/snappy-io-nodes",
     "snappy-logic-nodes": "github:snappyrobotics/snappy-logic-nodes",
     "when": "^3.7.8"
   },
