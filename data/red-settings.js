@@ -5,7 +5,17 @@ module.exports = {
   httpNodeRoot: "/api",
   userDir: path.join(__dirname, "..", "userDir", "red"),
   functionGlobalContext: {}, // enables global context,
-
+  paletteCategories: [
+    'subflows',
+    'input',
+    'output',
+    'function',
+    'social',
+    'mobile',
+    'storage',
+    'analysis',
+    'advanced'
+  ],
 
   editorTheme: {
     page: {

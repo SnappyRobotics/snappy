@@ -27,8 +27,8 @@
     "express": "^4.15.2",
     "http": "0.0.0",
     "node-red": "^0.16.2",
-    "node-red-contrib-snappylogicnodes": "github:snappyrobotics/SnappyLogicNodes",
     "path": "^0.12.7",
+    "snappy-logic-nodes": "github:snappyrobotics/snappy-logic-nodes",
     "when": "^3.7.8"
   },
   "devDependencies": {
