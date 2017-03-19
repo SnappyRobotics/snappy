@@ -1,5 +1,5 @@
 {
-  "name": "snappy-server",
+  "name": "snappy-core",
   "version": "0.1.103",
   "description": "Node-RED based Robotics Programming software backend",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SnappyRobotics/snappy.git"
+    "url": "git+https://github.com/SnappyRobotics/snappy-core.git"
   },
   "keywords": [
     "snappy",
@@ -23,9 +23,9 @@
   },
   "license": "LGPL-3.0",
   "bugs": {
-    "url": "https://github.com/SnappyRobotics/snappy/issues"
+    "url": "https://github.com/SnappyRobotics/snappy-core/issues"
   },
-  "homepage": "https://github.com/SnappyRobotics/snappy#readme",
+  "homepage": "https://github.com/SnappyRobotics/snappy-core#readme",
   "dependencies": {
     "debug": "^2.6.3",
     "express": "^4.15.2",
