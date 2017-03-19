@@ -1,6 +1,6 @@
 {
   "name": "snappy",
-  "version": "1.0.0",
+  "version": "0.1.103",
   "description": "Node-RED based Robotics Programming software backend",
   "main": "index.js",
   "scripts": {
@@ -16,7 +16,11 @@
     "robotics",
     "node-red"
   ],
-  "author": "prajankya",
+  "author": {
+    "name": "Prajankya Sonar",
+    "email": "contact@prajankya.me",
+    "url": "https://prajankya.me/"
+  },
   "license": "LGPL-3.0",
   "bugs": {
     "url": "https://github.com/SnappyRobotics/snappy/issues"
