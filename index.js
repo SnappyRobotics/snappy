@@ -19,7 +19,7 @@ app.use("/", express.static("public"))
 var red_settings = require(path.join(__dirname, 'data', 'red-settings'))
 
 var server = http.createServer(app) // Create a server
-//server.setMaxListeners(0);
+server.setMaxListeners(0);
 
 RED.init(server, red_settings) // Initialise the runtime with a server and settings
 
