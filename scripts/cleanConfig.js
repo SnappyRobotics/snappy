@@ -72,8 +72,8 @@ var cleanConfig = {
         } else {
           var x = JSON.parse(fs.readFileSync(configFile));
 
-          for (var i = 0; i < dis_all_in_trees.length; i++) {
-            var branch = x.nodes[dis_all_in_trees[i]].nodes
+          for (var i = 0; i < cleanConfig.dis_all_in_trees.length; i++) {
+            var branch = x.nodes[cleanConfig.dis_all_in_trees[i]].nodes
             for (var key in branch) {
               if (branch.hasOwnProperty(key)) {
                 branch[key].enabled = false;
@@ -85,7 +85,7 @@ var cleanConfig = {
           var branch = x.nodes["node-red"].nodes
           for (var key in branch) {
             if (branch.hasOwnProperty(key)) {
-              if (dis_inBuiltNodes.indexOf(key) > -1) {
+              if (cleanConfig.dis_inBuiltNodes.indexOf(key) > -1) {
                 branch[key].enabled = false;
                 debug("Disabled node :", key);
               } else if (branch[key].enabled == false) {
