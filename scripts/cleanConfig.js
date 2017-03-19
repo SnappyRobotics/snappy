@@ -7,32 +7,32 @@ const debug = require('debug')('snappy:clearConfig');
 
 const configFile = path.join(__dirname, "..", "userDir", "red", ".config.json")
 
-const dis_all_in_trees = [
-  "node-red-node-twitter",
-  "node-red-node-email",
-  "node-red-node-feedparser",
-  "node-red-node-rbe",
-  "node-red-node-twitter"
-]
 
-const dis_inBuiltNodes = [
-  "sentiment",
-  "exec",
-  "unknown",
-  "rpi-gpio",
-  "mqtt",
-  "websocket",
-  "watch",
-  "tcpin",
-  "udp",
-  "CSV",
-  "HTML",
-  "XML",
-  "YAML",
-  "tail"
-]
 
 var cleanConfig = {
+  dis_all_in_trees: [
+    "node-red-node-twitter",
+    "node-red-node-email",
+    "node-red-node-feedparser",
+    "node-red-node-rbe",
+    "node-red-node-twitter"
+  ],
+  dis_inBuiltNodes: [
+    "sentiment",
+    "exec",
+    "unknown",
+    "rpi-gpio",
+    "mqtt",
+    "websocket",
+    "watch",
+    "tcpin",
+    "udp",
+    "CSV",
+    "HTML",
+    "XML",
+    "YAML",
+    "tail"
+  ],
   check: when.promise(function(resolve, reject) {
     var statusFile = path.join(__dirname, "..", "userDir", "status.json")
     fs.open(statusFile, 'r', (err, fd) => {
@@ -47,14 +47,13 @@ var cleanConfig = {
 
       global.RED.stop()
         .then(function() {
-          debug("Stopped");
+          debug("Node-red stopped");
           return cleanConfig.clean()
         }).then(function() {
           contents.config_cleanup = true
           fs.writeFileSync(statusFile, JSON.stringify(contents))
 
-          debug("stopped twice")
-          //global.RED.start()
+          debug("cleaned config written to file")
           resolve("restart")
           return
         })
