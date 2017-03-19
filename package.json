@@ -1,5 +1,5 @@
 {
-  "name": "snappy",
+  "name": "snappy-server",
   "version": "0.1.103",
   "description": "Node-RED based Robotics Programming software backend",
   "main": "index.js",
