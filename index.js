@@ -22,3 +22,7 @@ debug("=========================================================================
 const red_connector = require(path.join(__dirname, 'scripts', 'red_connector'));
 
 red_connector.start_red()
+global.snappy_core.stop = red_connector.stop_red
+global.snappy_core.start = red_connector.start_red
+
+module.exports = global.snappy_core

@@ -44,7 +44,7 @@ global.snappy_core.cleanConfig = {
         }
       }
 
-      global.RED.stop()
+      global.snappy_core.RED.stop()
         .then(function() {
           debug("Node-red stopped");
           return global.snappy_core.cleanConfig.clean()
