@@ -8,8 +8,7 @@ const debug = require('debug')('snappy:clearConfig');
 const configFile = path.join(__dirname, "..", "userDir", "red", ".config.json")
 
 
-
-var cleanConfig = {
+global.snappy_core.cleanConfig = {
   dis_all_in_trees: [
     "node-red-node-twitter",
     "node-red-node-email",
@@ -48,7 +47,7 @@ var cleanConfig = {
       global.RED.stop()
         .then(function() {
           debug("Node-red stopped");
-          return cleanConfig.clean()
+          return global.snappy_core.cleanConfig.clean()
         }).then(function() {
           contents.config_cleanup = true
           fs.writeFileSync(statusFile, JSON.stringify(contents))
@@ -72,8 +71,8 @@ var cleanConfig = {
         } else {
           var x = JSON.parse(fs.readFileSync(configFile));
 
-          for (var i = 0; i < cleanConfig.dis_all_in_trees.length; i++) {
-            var branch = x.nodes[cleanConfig.dis_all_in_trees[i]].nodes
+          for (var i = 0; i < global.snappy_core.cleanConfig.dis_all_in_trees.length; i++) {
+            var branch = x.nodes[global.snappy_core.cleanConfig.dis_all_in_trees[i]].nodes
             for (var key in branch) {
               if (branch.hasOwnProperty(key)) {
                 branch[key].enabled = false;
@@ -85,7 +84,7 @@ var cleanConfig = {
           var branch = x.nodes["node-red"].nodes
           for (var key in branch) {
             if (branch.hasOwnProperty(key)) {
-              if (cleanConfig.dis_inBuiltNodes.indexOf(key) > -1) {
+              if (global.snappy_core.cleanConfig.dis_inBuiltNodes.indexOf(key) > -1) {
                 branch[key].enabled = false;
                 debug("Disabled node :", key);
               } else if (branch[key].enabled == false) {
@@ -102,4 +101,4 @@ var cleanConfig = {
   }
 }
 
-module.exports = cleanConfig
+module.exports = global.snappy_core.cleanConfig

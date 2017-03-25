@@ -6,27 +6,27 @@ const fs = require('fs')
 const debug = require('debug')("snappy:core:index")
 
 global.RED = require("node-red")
+global.snappy_core = {}
 
 //--------------------------------SETTINGS--------------------------------
 
-const PORT = 8000
+global.snappy_core.PORT = 8000
 
 //------------------------------------------------------------------------
-global.package = JSON.parse(fs.readFileSync(path.join(__dirname, "package.json")))
-debug("==========================================================================")
-debug("\t\t\t\t\t" + global.package.name)
-debug("\t\t" + global.package.description)
-debug("\t\t\t\t       version:" + global.package.version)
-debug("\t\t\t\tServer Running on Port : " + PORT)
-debug("==========================================================================")
 
 
+global.snappy_core.package = JSON.parse(fs.readFileSync(path.join(__dirname, "package.json")))
+
+debug("==========================================================================")
+debug("\t\t\t\t\t" + global.snappy_core.package.name)
+debug("\t\t" + global.snappy_core.package.description)
+debug("\t\t\t\t       version:" + global.snappy_core.package.version)
+debug("\t\t\t\tServer Running on Port : " + global.snappy_core.PORT)
+debug("==========================================================================")
 
 
 // Create an Express app
 var app = express()
-
-
 
 
 require('./routes/routes')(app)
@@ -42,7 +42,7 @@ RED.init(server, red_settings) // Initialise the runtime with a server and setti
 app.use(red_settings.httpAdminRoot, RED.httpAdmin) // Serve the editor UI from /red
 app.use(red_settings.httpNodeRoot, RED.httpNode) // Serve the http nodes UI from /api
 
-server.listen(PORT)
+server.listen(global.snappy_core.PORT)
 
 RED.start().then(function() { // Start the runtime
   var conf = require(path.join(__dirname, 'scripts', 'cleanConfig.js'))
