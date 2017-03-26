@@ -45,6 +45,7 @@ const red_connector = require(path.join(__dirname, 'scripts', 'red_connector'));
 
 global.snappy_core.stop = red_connector.stop_red
 global.snappy_core.start = red_connector.start_red
+global.snappy_core.clean = red_connector.clean
 
 if (require.main === module) {
   global.snappy_core.start()

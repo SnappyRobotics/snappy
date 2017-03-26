@@ -3,6 +3,7 @@ const when = require('when')
 const http = require('http')
 global.snappy_core.RED = require("node-red")
 const express = require("express")
+const fse = require('fs-extra')
 const debug = require('debug')("snappy:core:red_connector")
 
 var red_connector = {
@@ -62,10 +63,24 @@ var red_connector = {
       if (that.app) {
         global.snappy_core.RED.stop().then(function() {
           that.server.close(function() {
+            global.snappy_core.RED = null;
+            global.snappy_core.RED = require("node-red")
             resolve(true)
           })
         })
 
+      }
+    })
+  },
+  clean: function() {
+    return when.promise(function(resolve, reject) {
+      try {
+        fse.removeSync(path.join(__dirname, "..", 'userDir', 'status.json'))
+        fse.removeSync(path.join(__dirname, "..", 'userDir', 'red', '.config.json'))
+        fse.removeSync(path.join(__dirname, "..", 'userDir', 'red', 'lib'))
+        resolve(true)
+      } catch (e) {
+        reject(e)
       }
     })
   }
