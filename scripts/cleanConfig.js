@@ -3,7 +3,7 @@ const path = require('path');
 const when = require('when');
 const bindCallback = require('when/node').bindCallback;
 
-const debug = require('debug')('snappy:clearConfig');
+const debug = require('debug')('snappy:core:clearConfig');
 
 const configFile = path.join(__dirname, "..", "userDir", "red", ".config.json")
 
@@ -44,11 +44,8 @@ global.snappy_core.cleanConfig = {
         }
       }
 
-      global.snappy_core.RED.stop()
+      global.snappy_core.cleanConfig.clean()
         .then(function() {
-          debug("Node-red stopped");
-          return global.snappy_core.cleanConfig.clean()
-        }).then(function() {
           contents.config_cleanup = true
           fs.writeFileSync(statusFile, JSON.stringify(contents))
 

@@ -13,15 +13,15 @@ var red_connector = {
     require(path.join(__dirname, '..', 'routes', 'routes'))(this.app)
 
     // ================================= RED =======================================
-    var red_settings = require(path.join(__dirname, '..', 'data', 'red-settings'))
+    this.red_settings = require(path.join(__dirname, '..', 'data', 'red-settings'))
 
     this.server = http.createServer(this.app) // Create a server
     this.server.setMaxListeners(0);
 
-    global.snappy_core.RED.init(this.server, red_settings) // Initialise the runtime with a server and settings
+    global.snappy_core.RED.init(this.server, this.red_settings) // Initialise the runtime with a server and settings
 
-    this.app.use(red_settings.httpAdminRoot, global.snappy_core.RED.httpAdmin) // Serve the editor UI from /red
-    this.app.use(red_settings.httpNodeRoot, global.snappy_core.RED.httpNode) // Serve the http nodes UI from /api
+    this.app.use(this.red_settings.httpAdminRoot, global.snappy_core.RED.httpAdmin) // Serve the editor UI from /red
+    this.app.use(this.red_settings.httpNodeRoot, global.snappy_core.RED.httpNode) // Serve the http nodes UI from /api
   },
   start_red: function() {
     var that = this
@@ -38,14 +38,17 @@ var red_connector = {
           .then(function(o) {
             debug("clean config check returned :", o)
             if (o == "restart") {
-              debug("Restarting red")
-              global.snappy_core.RED.init(server, red_settings) // Initialise the runtime with a server and settings
+              that.stop_red()
+                .then(function() {
+                  debug("Restarting red")
+                  global.snappy_core.RED.init(that.server, that.red_settings) // Initialise the runtime with a server and settings
 
-              that.app.use(red_settings.httpAdminRoot, global.snappy_core.RED.httpAdmin) // Serve the editor UI from /red
-              that.app.use(red_settings.httpNodeRoot, global.snappy_core.RED.httpNode) // Serve the http nodes UI from /api
-              global.snappy_core.RED.start().then(function() {
-                resolve(true)
-              })
+                  that.app.use(that.red_settings.httpAdminRoot, global.snappy_core.RED.httpAdmin) // Serve the editor UI from /red
+                  that.app.use(that.red_settings.httpNodeRoot, global.snappy_core.RED.httpNode) // Serve the http nodes UI from /api
+                  global.snappy_core.RED.start().then(function() {
+                    resolve(true)
+                  })
+                })
             } else {
               resolve(true)
             }
@@ -58,7 +61,7 @@ var red_connector = {
     return when.promise(function(resolve, reject) {
       if (that.app) {
         global.snappy_core.RED.stop().then(function() {
-          that.server.stop().then(function() {
+          that.server.close(function() {
             resolve(true)
           })
         })
