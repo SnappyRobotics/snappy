@@ -24,7 +24,7 @@ var red_connector = {
     this.app.use(this.red_settings.httpNodeRoot, global.snappy_core.RED.httpNode) // Serve the http nodes UI from /api
   },
   start_red: function() {
-    var that = this
+    var that = red_connector
     return when.promise(function(resolve, reject) {
       if (!that.app) {
         that.init()
@@ -57,7 +57,7 @@ var red_connector = {
     })
   },
   stop_red: function() {
-    var that = this
+    var that = red_connector
     return when.promise(function(resolve, reject) {
       if (that.app) {
         global.snappy_core.RED.stop().then(function() {
