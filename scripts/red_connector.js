@@ -1,12 +1,14 @@
+'use strict';
+
 const path = require('path')
 const when = require('when')
 const http = require('http')
-global.snappy_core.RED = require("node-red")
 const express = require("express")
 const fse = require('fs-extra')
 const debug = require('debug')("snappy:core:red_connector")
 
 var red_connector = {
+  isRunning: false,
   init: function() {
     // Create an Express app
     this.app = express()
@@ -19,6 +21,7 @@ var red_connector = {
     this.server = http.createServer(this.app) // Create a server
     this.server.setMaxListeners(0);
 
+    global.snappy_core.RED = require("node-red")
     global.snappy_core.RED.init(this.server, this.red_settings) // Initialise the runtime with a server and settings
 
     this.app.use(this.red_settings.httpAdminRoot, global.snappy_core.RED.httpAdmin) // Serve the editor UI from /red
@@ -42,13 +45,9 @@ var red_connector = {
               that.stop_red()
                 .then(function() {
                   debug("Restarting red")
-                  global.snappy_core.RED.init(that.server, that.red_settings) // Initialise the runtime with a server and settings
-
-                  that.app.use(that.red_settings.httpAdminRoot, global.snappy_core.RED.httpAdmin) // Serve the editor UI from /red
-                  that.app.use(that.red_settings.httpNodeRoot, global.snappy_core.RED.httpNode) // Serve the http nodes UI from /api
-                  global.snappy_core.RED.start().then(function() {
-                    resolve(true)
-                  })
+                  setTimeout(function() {
+                    return that.start_red()
+                  }, 500);
                 })
             } else {
               resolve(true)
@@ -63,8 +62,11 @@ var red_connector = {
       if (that.app) {
         global.snappy_core.RED.stop().then(function() {
           that.server.close(function() {
+            delete that.app
+            delete that.server
+            that.app = null
+            that.server = null
             global.snappy_core.RED = null;
-            global.snappy_core.RED = require("node-red")
             resolve(true)
           })
         })

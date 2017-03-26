@@ -33,26 +33,18 @@ global.snappy_core.cleanConfig = {
     "tail"
   ],
   check: when.promise(function(resolve, reject) {
-    var statusFile = path.join(__dirname, "..", "userDir", "status.json")
-    fs.open(statusFile, 'r', (err, fd) => {
-      var contents = {}
+    fs.open(configFile, 'r', (err, fd) => {
       if (!err) {
-        contents = JSON.parse(fs.readFileSync(statusFile));
-        if (contents.config_cleanup) {
-          resolve("noChange")
-          return
-        }
+        resolve("noChange")
+        return
+      } else {
+        global.snappy_core.cleanConfig.clean()
+          .then(function() {
+            debug("cleaned config written to file")
+            resolve("restart")
+            return
+          })
       }
-
-      global.snappy_core.cleanConfig.clean()
-        .then(function() {
-          contents.config_cleanup = true
-          fs.writeFileSync(statusFile, JSON.stringify(contents))
-
-          debug("cleaned config written to file")
-          resolve("restart")
-          return
-        })
     })
   }),
   clean: function(callback) {
@@ -60,10 +52,10 @@ global.snappy_core.cleanConfig = {
       fs.open(configFile, 'r', (err, fd) => {
         if (err) {
           if (err.code === "ENOENT") {
-            console.error('myfile does not exist');
+            reject('myfile does not exist');
             return;
           } else {
-            throw err;
+            reject(err)
           }
         } else {
           var x = JSON.parse(fs.readFileSync(configFile));
