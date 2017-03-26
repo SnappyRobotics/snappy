@@ -78,7 +78,6 @@ var red_connector = {
     debug("Cleaning existing config")
     return when.promise(function(resolve, reject) {
       try {
-        fse.removeSync(path.join(__dirname, "..", 'userDir', 'status.json'))
         fse.removeSync(path.join(__dirname, "..", 'userDir', 'red', '.config.json'))
         fse.removeSync(path.join(__dirname, "..", 'userDir', 'red', 'lib'))
         debug("Cleaned config")
