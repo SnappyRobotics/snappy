@@ -10,7 +10,6 @@ const debug = require('debug')("snappy:core:red_connector")
 var red_connector = {
   isRunning: false,
   init: function() {
-    // Create an Express app
     this.app = express()
 
     require(path.join(__dirname, '..', 'routes', 'routes'))(this.app)
