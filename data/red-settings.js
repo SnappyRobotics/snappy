@@ -16,6 +16,7 @@ module.exports = {
     'analysis',
     'advanced'
   ],
+  logging: 'fatal',
 
   editorTheme: {
     page: {
