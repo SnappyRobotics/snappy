@@ -29,8 +29,25 @@ module.exports = function() {
       }
     }
   }
-
+  const machineID = require('node-machine-id');
   const myPackage = JSON.parse(fs.readFileSync(path.join(__dirname, '..', "package.json")))
+
+
+  try {
+    global.snappy_core.config = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'userDir', "config.json")))
+  } catch (e) {
+    console.error("No Config File exists in userDir");
+    var ob = {}
+    ob.jwt_secret = machineID.machineIdSync()
+
+    const passwordHash = require('password-hash')
+
+    ob.user = 'admin'
+    ob.pass = passwordHash.generate('admin')
+
+    global.snappy_core.config = ob
+    fs.writeFileSync(path.join(__dirname, '..', 'userDir', "config.json"), JSON.stringify(ob))
+  }
 
 
   art.font('Snappy Robotics', 'Doom', 'cyan', function(ascii) {

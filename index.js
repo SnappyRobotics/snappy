@@ -13,7 +13,6 @@ global.snappy_core.PORT = 8000
 
 require(path.join(__dirname, 'scripts', 'intro'))()
 
-
 //---------------------------Node-RED-----------------------------------------
 const red_connector = require(path.join(__dirname, 'scripts', 'red_connector'));
 

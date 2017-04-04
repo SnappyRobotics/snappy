@@ -3,8 +3,9 @@
 const path = require('path')
 const when = require('when')
 const http = require('http')
-const express = require("express")
 const fse = require('fs-extra')
+const express = require("express")
+const bodyParser = require('body-parser')
 const debug = require('debug')("snappy:core:red_connector")
 
 var red_connector = {
@@ -12,9 +13,17 @@ var red_connector = {
   init: function() {
     this.app = express()
 
+    // parse application/x-www-form-urlencoded
+    this.app.use(bodyParser.urlencoded({
+      extended: false
+    }))
+
+    // parse application/json
+    this.app.use(bodyParser.json())
+
     require(path.join(__dirname, '..', 'routes', 'routes'))(this.app)
 
-    // ================================= RED =======================================
+    // =============================== RED =====================================
     this.red_settings = require(path.join(__dirname, '..', 'data', 'red-settings'))
 
     this.server = http.createServer(this.app) // Create a server
