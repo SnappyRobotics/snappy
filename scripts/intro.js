@@ -35,4 +35,17 @@ module.exports = function() {
   }
 
   debug("==========================================================================")
+
+  const art = require('ascii-art');
+  var image = path.join(__dirname, '..', 'public', 'images', 'logo_white.png')
+
+  var pictureTube = require('picture-tube')
+  var tube = pictureTube()
+  tube.pipe(process.stdout)
+
+
+  art.font('Snappy Robotics', 'Doom', 'cyan', function(ascii) {
+    console.log(ascii);
+  })
+  fs.createReadStream(image).pipe(tube);
 }
