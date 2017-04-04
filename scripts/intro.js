@@ -32,6 +32,7 @@ module.exports = function() {
   const machineID = require('node-machine-id');
   const myPackage = JSON.parse(fs.readFileSync(path.join(__dirname, '..', "package.json")))
 
+  global.snappy_core.package = myPackage
 
   try {
     global.snappy_core.config = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'userDir', "config.json")))
