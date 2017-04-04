@@ -19,8 +19,6 @@ var login = function(req, res, next) {
       res.status(406).end('Wrong username')
     } else {
       if (!passwordHash.verify(req.body.pass.trim(), global.snappy_core.config.pass)) {
-        debug(req.body.pass.trim())
-        debug(passwordHash.generate(req.body.pass.trim()))
         res.status(406).end('Wrong password')
       } else {
         var token = jwt.sign({
