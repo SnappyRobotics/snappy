@@ -16,10 +16,10 @@ var login = function(req, res, next) {
   if (req.body.user && req.body.pass) {
 
     if (req.body.user.trim() != global.snappy_core.config.user) {
-      res.status(406).end('Wrong username')
+      res.status(400).send('Wrong username')
     } else {
       if (!passwordHash.verify(req.body.pass.trim(), global.snappy_core.config.pass)) {
-        res.status(406).end('Wrong password')
+        res.status(400).send('Wrong password')
       } else {
         var token = jwt.sign({
           user: req.body.user.trim(),
@@ -38,7 +38,7 @@ var login = function(req, res, next) {
       }
     }
   } else {
-    res.status(406).end('username or password not supplied')
+    res.status(400).send('username or password not supplied')
   }
 }
 
@@ -46,7 +46,7 @@ var login = function(req, res, next) {
 var logout = function(req, res, next) {
   delete global.snappy_core.config.token
   global.snappy_core.saveConfig()
-  res.status(201).end('Successfully logged out!')
+  res.status(201).send('Successfully logged out!')
 }
 
 global.snappy_core.checkLogin = function(req, res, next) {
