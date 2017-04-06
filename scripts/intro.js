@@ -2,13 +2,12 @@
 
 const fs = require('fs')
 const os = require('os')
-const path = require('path')
 const art = require('ascii-art');
 const pictureTube = require('picture-tube')
 
 const debug = require('debug')("snappy:core:intro")
 
-const _ = require(path.join(__dirname, 'init'))
+const _ = require(global.initLocation)
 
 module.exports = function() {
   var image = _.path('public', 'images', 'logo_white.png')

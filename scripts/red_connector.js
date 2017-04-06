@@ -1,16 +1,18 @@
 'use strict';
 
-const path = require('path')
-const when = require('when')
 const http = require('http')
 const fse = require('fs-extra')
 const express = require("express")
+const Promise = require('bluebird')
 const bodyParser = require('body-parser')
 const debug = require('debug')("snappy:core:red_connector")
+
+const _ = require(global.initLocation)
 
 var red_connector = {
   isRunning: false,
   init: function() {
+    debug("initializing RED")
     this.app = express()
 
     // parse application/x-www-form-urlencoded
@@ -21,31 +23,36 @@ var red_connector = {
     // parse application/json
     this.app.use(bodyParser.json())
 
-    require(path.join(__dirname, '..', 'routes', 'routes'))(this.app)
+    require(_.path('routes', 'routes'))(this.app)
 
     // =============================== RED =====================================
-    this.red_settings = require(path.join(__dirname, '..', 'data', 'red-settings'))
+    this.red_settings = require(_.path('data', 'red-settings'))
 
     this.server = http.createServer(this.app) // Create a server
     this.server.setMaxListeners(0);
 
-    global.snappy_core.RED = require("node-red")
-    global.snappy_core.RED.init(this.server, this.red_settings) // Initialise the runtime with a server and settings
+    this.RED = require("node-red")
+    this.RED.init(this.server, this.red_settings) // Initialise the runtime with a server and settings
 
-    this.app.use(this.red_settings.httpAdminRoot, global.snappy_core.RED.httpAdmin) // Serve the editor UI from /red
-    this.app.use(this.red_settings.httpNodeRoot, global.snappy_core.RED.httpNode) // Serve the http nodes UI from /api
+    this.app.use(this.red_settings.httpAdminRoot, this.RED.httpAdmin) // Serve the editor UI from /red
+    this.app.use(this.red_settings.httpNodeRoot, this.RED.httpNode) // Serve the http nodes UI from /api
+
+    debug("initialized RED")
   },
   start_red: function() {
     var that = red_connector
-    return when.promise(function(resolve, reject) {
+
+    debug("starting RED")
+
+    return new Promise(function(resolve, reject) {
       if (!that.app) {
         that.init()
       }
 
-      that.server.listen(global.snappy_core.PORT)
+      that.server.listen(_.consts.PORT)
 
-      global.snappy_core.RED.start().then(function() { // Start the runtime
-        var conf = require(path.join(__dirname, '..', 'scripts', 'cleanConfig.js'))
+      that.RED.start().then(function() { // Start the runtime
+        var conf = require(_.path('scripts', 'cleanREDConfig.js'))
         conf.check
           .then(function(o) {
             debug("clean config check returned :", o)
@@ -58,6 +65,7 @@ var red_connector = {
                   }, 500);
                 })
             } else {
+              debug("started RED")
               resolve(true)
             }
           })
@@ -66,30 +74,41 @@ var red_connector = {
   },
   stop_red: function() {
     var that = red_connector
-    return when.promise(function(resolve, reject) {
+
+    debug("stopping RED")
+
+    return new Promise(function(resolve, reject) {
       if (that.app) {
-        global.snappy_core.RED.stop().then(function() {
+        that.RED.stop().then(function() {
           that.server.close(function() {
             delete that.app
             delete that.server
             that.app = null
             that.server = null
-            global.snappy_core.RED = null;
+            that.RED = null;
+
+            debug("stopped RED")
+
             resolve(true)
           })
         })
-
       }
     })
   },
   clean: function() {
-    debug("Cleaning existing config")
-    return when.promise(function(resolve, reject) {
+    debug("Cleaning existing RED Config")
+    return new Promise(function(resolve, reject) {
       try {
-        fse.removeSync(path.join(__dirname, "..", 'userDir', 'red', '.config.json'))
-        fse.removeSync(path.join(__dirname, "..", 'userDir', 'red', 'lib'))
-        debug("Cleaned config")
-        resolve(true)
+        fse.moveSync(_.path('userDir', 'red', '.gitignore'), _.path('userDir', 'red.gitignore'))
+
+        fse.removeSync(_.path('userDir', 'red'))
+
+        fse.ensureDir(_.path('userDir', 'red'), err => {
+          fse.moveSync(_.path('userDir', 'red.gitignore'), _.path('userDir', 'red', '.gitignore'))
+
+          debug("Cleaned RED config")
+          resolve(true)
+        })
       } catch (e) {
         reject(e)
       }

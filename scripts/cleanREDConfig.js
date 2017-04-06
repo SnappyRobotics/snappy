@@ -8,7 +8,7 @@ const debug = require('debug')('snappy:core:clearConfig');
 const configFile = path.join(__dirname, "..", "userDir", "red", ".config.json")
 
 
-global.snappy_core.cleanConfig = {
+var cleanREDConfig = {
   dis_all_in_trees: [
     "node-red-node-twitter",
     "node-red-node-email",
@@ -90,4 +90,4 @@ global.snappy_core.cleanConfig = {
   }
 }
 
-module.exports = global.snappy_core.cleanConfig
+module.exports = cleanREDConfig

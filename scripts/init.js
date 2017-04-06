@@ -33,6 +33,7 @@ var init = (() => {
   }
 
   this.createConfig = function() {
+    var that = this
     return new Promise(function(resolve, reject) {
       var ob = {}
       ob.jwt_secret = machineID.machineIdSync()
@@ -42,16 +43,17 @@ var init = (() => {
       ob.user = 'admin'
       ob.pass = passwordHash.generate('admin')
 
-      this.config = ob
-      fs.writeFile(this.consts.configFile, JSON.stringify(this.config), function() {
+      that.config = ob
+      fs.writeFile(that.consts.configFile, JSON.stringify(that.config), function() {
         resolve('done')
       })
     })
   }
 
   this.saveConfig = function() {
+    var that = this
     return new Promise(function(resolve, reject) {
-      fs.writeFile(this.consts.configFile, JSON.stringify(this.config), function() {
+      fs.writeFile(that.consts.configFile, JSON.stringify(that.config), function() {
         resolve('done')
       })
     })
