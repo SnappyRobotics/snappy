@@ -89,10 +89,5 @@ global.snappy_core.cleanConfig = {
     }), callback);
   }
 }
-const ownConfigFile = path.join(__dirname, "..", "userDir", "config.json")
-
-global.snappy_core.saveConfig = function() {
-  fs.writeFileSync(ownConfigFile, JSON.stringify(global.snappy_core.config))
-}
 
 module.exports = global.snappy_core.cleanConfig

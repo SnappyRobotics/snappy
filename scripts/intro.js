@@ -5,14 +5,16 @@ const os = require('os')
 const path = require('path')
 const art = require('ascii-art');
 const pictureTube = require('picture-tube')
+
 const debug = require('debug')("snappy:core:intro")
 
+const _ = require(path.join(__dirname, 'init'))
+
 module.exports = function() {
-  var image = path.join(__dirname, '..', 'public', 'images', 'logo_white.png')
+  var image = _.path('public', 'images', 'logo_white.png')
 
   var tube = pictureTube()
   tube.pipe(process.stdout)
-
 
   var interfaces = os.networkInterfaces()
   var addresses = []
@@ -30,42 +32,40 @@ module.exports = function() {
     }
   }
   const machineID = require('node-machine-id');
-  const myPackage = JSON.parse(fs.readFileSync(path.join(__dirname, '..', "package.json")))
+  /*
+    try {
+      global.snappy_core.config = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'userDir', "config.json")))
+    } catch (e) {
+      console.error("No Config File exists in userDir");
+      var ob = {}
+      ob.jwt_secret = machineID.machineIdSync()
 
-  global.snappy_core.package = myPackage
+      const passwordHash = require('password-hash')
 
-  try {
-    global.snappy_core.config = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'userDir', "config.json")))
-  } catch (e) {
-    console.error("No Config File exists in userDir");
-    var ob = {}
-    ob.jwt_secret = machineID.machineIdSync()
+      ob.user = 'admin'
+      ob.pass = passwordHash.generate('admin')
 
-    const passwordHash = require('password-hash')
-
-    ob.user = 'admin'
-    ob.pass = passwordHash.generate('admin')
-
-    global.snappy_core.config = ob
-    fs.writeFileSync(path.join(__dirname, '..', 'userDir', "config.json"), JSON.stringify(ob))
-  }
+      global.snappy_core.config = ob
+      fs.writeFileSync(path.join(__dirname, '..', 'userDir', "config.json"), JSON.stringify(ob))
+    }
 
 
-  art.font('Snappy Robotics', 'Doom', 'cyan', function(ascii) {
-    fs.createReadStream(image)
-      .pipe(tube)
-      .on('end', function() {
-        console.log(ascii);
-        debug("==========================================================================")
-        debug("\t\t\t\t" + myPackage.name)
-        debug("\t" + myPackage.description)
-        debug("\t\t\t       version:" + myPackage.version)
-        debug("\t\t\tServer Running on Port : " + global.snappy_core.PORT)
+    art.font('Snappy Robotics', 'Doom', 'cyan', function(ascii) {
+      fs.createReadStream(image)
+        .pipe(tube)
+        .on('end', function() {
+          console.log(ascii);
+          debug("==========================================================================")
+          debug("\t\t\t\t" + myPackage.name)
+          debug("\t" + myPackage.description)
+          debug("\t\t\t       version:" + myPackage.version)
+          debug("\t\t\tServer Running on Port : " + global.snappy_core.PORT)
 
-        for (var i = 0; i < addresses.length; i++) {
-          debug("\t\t\t   Listening on : " + addresses[i].address + ":" + global.snappy_core.PORT)
-        }
-        debug("==========================================================================")
-      });
-  })
+          for (var i = 0; i < addresses.length; i++) {
+            debug("\t\t\t   Listening on : " + addresses[i].address + ":" + global.snappy_core.PORT)
+          }
+          debug("==========================================================================")
+        });
+    })
+    */
 }

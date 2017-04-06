@@ -1,18 +1,17 @@
 'use strict';
 
 const path = require('path')
+const _ = require(path.join(__dirname, 'scripts', 'init'))
+
 const debug = require('debug')("snappy:core:index")
 
-global.snappy_core = {}
-
-//--------------------------------SETTINGS--------------------------------
-
-global.snappy_core.PORT = 8000
-
-//------------------------------------------------------------------------
+//global.snappy_core = {}
+// debug(_)
 
 require(path.join(__dirname, 'scripts', 'intro'))()
 
+
+/*
 //---------------------------Node-RED-----------------------------------------
 const red_connector = require(path.join(__dirname, 'scripts', 'red_connector'));
 
@@ -32,3 +31,4 @@ if (require.main === module) {
   debug('required as a module');
   module.exports = global.snappy_core
 }
+*/
