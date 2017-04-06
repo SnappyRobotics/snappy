@@ -32,40 +32,23 @@ module.exports = function() {
     }
   }
   const machineID = require('node-machine-id');
-  /*
-    try {
-      global.snappy_core.config = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'userDir', "config.json")))
-    } catch (e) {
-      console.error("No Config File exists in userDir");
-      var ob = {}
-      ob.jwt_secret = machineID.machineIdSync()
 
-      const passwordHash = require('password-hash')
+  art.font('Snappy Robotics', 'Doom', 'cyan', function(ascii) {
+    fs.createReadStream(image)
+      .pipe(tube)
+      .on('end', function() {
+        console.log(ascii);
+        debug("==========================================================================")
+        debug("\t\t\t\t" + _.consts.package.name)
+        debug("\t" + _.consts.package.description)
+        debug("\t\t\t       version:" + _.consts.package.version)
+        debug("\t\t\tServer Running on Port : " + _.consts.PORT)
 
-      ob.user = 'admin'
-      ob.pass = passwordHash.generate('admin')
+        for (var i = 0; i < addresses.length; i++) {
+          debug("\t\t\t   Listening on : " + addresses[i].address + ":" + _.consts.PORT)
+        }
 
-      global.snappy_core.config = ob
-      fs.writeFileSync(path.join(__dirname, '..', 'userDir', "config.json"), JSON.stringify(ob))
-    }
-
-
-    art.font('Snappy Robotics', 'Doom', 'cyan', function(ascii) {
-      fs.createReadStream(image)
-        .pipe(tube)
-        .on('end', function() {
-          console.log(ascii);
-          debug("==========================================================================")
-          debug("\t\t\t\t" + myPackage.name)
-          debug("\t" + myPackage.description)
-          debug("\t\t\t       version:" + myPackage.version)
-          debug("\t\t\tServer Running on Port : " + global.snappy_core.PORT)
-
-          for (var i = 0; i < addresses.length; i++) {
-            debug("\t\t\t   Listening on : " + addresses[i].address + ":" + global.snappy_core.PORT)
-          }
-          debug("==========================================================================")
-        });
-    })
-    */
+        debug("==========================================================================")
+      });
+  })
 }
