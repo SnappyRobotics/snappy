@@ -30,7 +30,6 @@ module.exports = function() {
       }
     }
   }
-  const machineID = require('node-machine-id');
 
   art.font('Snappy Robotics', 'Doom', 'cyan', function(ascii) {
     fs.createReadStream(image)
