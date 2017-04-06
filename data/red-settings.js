@@ -1,9 +1,9 @@
-const path = require('path');
+const _ = require(global.initLocation)
 
 module.exports = {
   httpAdminRoot: "/red",
   httpNodeRoot: "/api",
-  userDir: path.join(__dirname, "..", "userDir", "red"),
+  userDir: _.path("userDir", "red"),
   functionGlobalContext: {}, // enables global context,
   paletteCategories: [
     'subflows',
@@ -21,12 +21,12 @@ module.exports = {
   editorTheme: {
     page: {
       title: "Snappy Robotics",
-      favicon: path.join(__dirname, "..", "public", "images", "logo.png"),
+      favicon: _.path("public", "images", "logo.png"),
       css: "/absolute/path/to/custom/css/file"
     },
     header: {
       title: "Snappy Robotics",
-      image: path.join(__dirname, "..", "public", "images", "logo_white.png"),
+      image: _.path("public", "images", "logo_white.png"),
       url: "https://SnappyRobotics.github.io" // optional url to make the header text/image a link to this url
     },
     deployButton: {
