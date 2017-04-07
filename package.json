@@ -1,6 +1,6 @@
 {
   "name": "snappy-core",
-  "version": "0.1.142",
+  "version": "0.2.52",
   "description": "Node-RED based Robotics Programming software backend",
   "main": "index.js",
   "scripts": {
