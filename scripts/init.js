@@ -25,31 +25,29 @@ var init = (() => {
     return p
   }
 
-  that.createConfig = function() {
-    return new Promise(function(resolve, reject) {
-      var ob = {}
-      ob.jwt_secret = machineID.machineIdSync()
+  that.createConfig = function() { //Need to be synchronous
+    var ob = {}
+    ob.jwt_secret = machineID.machineIdSync()
 
-      const passwordHash = require('password-hash')
+    const passwordHash = require('password-hash')
 
-      ob.user = 'admin'
-      ob.pass = passwordHash.generate('admin')
+    ob.user = 'admin'
+    ob.pass = passwordHash.generate('admin')
 
-      that.config = ob
-      fs.writeFile(that.consts.configFile, JSON.stringify(that.config), function() {
-        resolve('done')
-      })
-    })
+    that.config = ob
+    fs.writeFileSync(that.consts.configFile, JSON.stringify(that.config))
+
+    return that.config
   }
 
-  that.config = (() => {
+  that.config = ((that.config) ? (that.config) : (() => {
     try {
       return JSON.parse(fs.readFileSync(this.consts.configFile))
     } catch (e) {
       debug("No Config File exists in userDir");
-      that.createConfig()
+      return that.createConfig()
     }
-  })()
+  })())
 
   that.saveConfig = function() {
     return new Promise(function(resolve, reject) {
