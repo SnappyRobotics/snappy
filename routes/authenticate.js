@@ -63,7 +63,7 @@ var checkAuth = function(req, res, next) {
         // verifies secret and checks exp
         jwt.verify(token, _.config.jwt_secret, function(err, decoded) {
           if (err) {
-            return res.json({
+            return res.status(403).json({
               success: false,
               message: 'Failed to authenticate token.',
               err: err
