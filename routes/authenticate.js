@@ -52,6 +52,10 @@ var logout = function(req, res, next) {
 }
 
 var checkAuth = function(req, res, next) {
+  if (req.path == '/favicon.ico' || req.path.indexOf('/api/ui') == 0) {
+    //Open up for UI
+    return next();
+  }
 
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.query.token || req.headers['x-access-token'];
