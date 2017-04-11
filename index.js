@@ -19,7 +19,7 @@ if (require.main === module) {
   red_connector.init()
 
   red_connector.server.on('error', function(e) {
-    debug("Cannot start server as Port is being used :", global.snappy_core.PORT)
+    debug("Cannot start server as Port is being used :", _.consts.PORT)
 
     console.error(e)
 
