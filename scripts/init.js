@@ -1,9 +1,11 @@
 'use strict';
 
 const machineID = require('node-machine-id')
+const userhome = require('userhome')
 const Promise = require('bluebird')
 const path = require('path')
 const fs = require('fs')
+
 const debug = require('debug')("snappy:core:init")
 
 var init = function() {
@@ -11,7 +13,7 @@ var init = function() {
 
   that.consts = {
     root: path.join(__dirname, ".."),
-    configFile: path.join(__dirname, "..", "userDir", "config.json"),
+    configFile: userhome(".snappy-core", "config.json"),
     PORT: 8000,
     package: JSON.parse(fs.readFileSync(path.join(__dirname, '..', "package.json")))
   }
@@ -35,6 +37,9 @@ var init = function() {
     ob.pass = passwordHash.generate('admin')
 
     that.config = ob
+
+    fs.mkdirSync(userhome(".snappy-core"))
+
     fs.writeFileSync(that.consts.configFile, JSON.stringify(that.config))
 
     return that.config

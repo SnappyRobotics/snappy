@@ -45,6 +45,7 @@
     "picture-tube": "^1.0.0",
     "snappy-io-nodes": "github:snappyrobotics/snappy-io-nodes",
     "snappy-logic-nodes": "github:snappyrobotics/snappy-logic-nodes",
+    "userhome": "^1.0.0",
     "when": "^3.7.8"
   },
   "devDependencies": {
