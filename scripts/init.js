@@ -6,8 +6,8 @@ const path = require('path')
 const fs = require('fs')
 const debug = require('debug')("snappy:core:init")
 
-var init = (() => {
-  var that = this
+var init = function() {
+  var that = init
 
   that.consts = {
     root: path.join(__dirname, ".."),
@@ -17,7 +17,7 @@ var init = (() => {
   }
 
   that.path = function() {
-    var p = this.consts.root
+    var p = that.consts.root
     for (var i = 0; i < arguments.length; i++) {
       p = path.join(p, arguments[i])
     }
@@ -42,7 +42,7 @@ var init = (() => {
 
   that.config = ((that.config) ? (that.config) : (() => {
     try {
-      return JSON.parse(fs.readFileSync(this.consts.configFile))
+      return JSON.parse(fs.readFileSync(that.consts.configFile))
     } catch (e) {
       debug("No Config File exists in userDir");
       return that.createConfig()
@@ -58,6 +58,6 @@ var init = (() => {
   }
 
   return that
-})()
+}
 
-module.exports = init
+module.exports = init()
