@@ -57,7 +57,7 @@ var red_connector = {
           .then(function(o) {
             debug("clean config check returned :", o)
             if (o == "restart") {
-              that.stop_red()
+              return that.stop_red()
                 .then(function() {
                   debug("Restarting red")
                   setTimeout(function() {
@@ -66,6 +66,7 @@ var red_connector = {
                 })
             } else {
               debug("started RED")
+              that.isRunning = true
               resolve(true)
             }
           })
@@ -88,6 +89,7 @@ var red_connector = {
             that.RED = null;
 
             debug("stopped RED")
+            that.isRunning = false
 
             resolve(true)
           })

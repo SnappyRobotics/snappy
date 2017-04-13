@@ -33,6 +33,9 @@ if (require.main === module) {
   module.exports = {
     start: red_connector.start_red,
     stop: red_connector.stop_red,
+    isRunning: function() {
+      return red_connector.isRunning
+    },
     clean: function() {
       return Promise.resolve()
         .then(function() {
