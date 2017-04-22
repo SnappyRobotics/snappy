@@ -9,7 +9,9 @@ const debug = require('debug')("snappy:core:authenticate")
 function myRoutes(app) {
   app.post('/login', login)
 
-  app.use(checkAuth) //Keep it here for checking for token just for everything except /login
+  if (_.config.authentication) {
+    app.use(checkAuth) //Keep it here for checking for token just for everything except /login
+  }
 
   app.get('/logout', logout)
 }

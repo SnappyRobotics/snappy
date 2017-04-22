@@ -36,6 +36,8 @@ var init = function() {
     ob.user = 'admin'
     ob.pass = passwordHash.generate('admin')
 
+    ob.authentication = true
+
     that.config = ob
 
     fs.mkdirSync(userhome(".snappy-core"))
