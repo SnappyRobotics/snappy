@@ -42,6 +42,7 @@
     "password-hash": "^1.2.2",
     "path": "^0.12.7",
     "picture-tube": "^1.0.0",
+    "ps-tree": "^1.1.0",
     "snappy-io-nodes": "SnappyRobotics/snappy-io-nodes",
     "snappy-logic-nodes": "SnappyRobotics/snappy-logic-nodes",
     "snappy-ros": "SnappyRobotics/snappy-ros",
