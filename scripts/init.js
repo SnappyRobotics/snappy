@@ -38,6 +38,8 @@ var init = function() {
 
     ob.authentication = true
 
+    ob.ros_on_start = true
+
     that.config = ob
 
     fs.mkdirSync(userhome(".snappy-core"))

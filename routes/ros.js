@@ -4,7 +4,6 @@ const router = require('express').Router()
 const cp = require('child_process')
 const psTree = require('ps-tree')
 
-
 const debug = require('debug')("snappy:core:ros")
 
 var child = null
@@ -86,7 +85,7 @@ router.get('/start', function(req, res, next) {
     }, 100)
   } else {
     res.json({
-      error: 'ROS already running'
+      isRunning: isRunning
     })
   }
 })
@@ -102,9 +101,13 @@ router.get('/stop', function(req, res, next) {
     }, 100)
   } else {
     res.json({
-      error: 'ROS is not running'
+      isRunning: isRunning
     })
   }
 })
+
+if (_.config.ros_on_start) {
+  runROS()
+}
 
 module.exports = router
