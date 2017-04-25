@@ -7,6 +7,10 @@ router.get('/', function(req, res, next) {
     name: "Snappy Robotics Software",
     version: _.consts.package.version,
     description: _.consts.package.description,
+    isLinux: _.consts.isLinux,
+    isMac: _.consts.isMac,
+    isWin: _.consts.isWin,
+    hasROS: _.consts.hasROS,
     snappy: true
   })
 })

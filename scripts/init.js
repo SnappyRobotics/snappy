@@ -14,9 +14,20 @@ var init = function() {
   that.consts = {
     root: path.join(__dirname, ".."),
     configFile: userhome(".snappy-core", "config.json"),
-    PORT: 8000,
-    package: JSON.parse(fs.readFileSync(path.join(__dirname, '..', "package.json")))
+    PORT: 8895,
+    package: JSON.parse(fs.readFileSync(path.join(__dirname, '..', "package.json"))),
+    isWin: /^win/.test(process.platform),
+    isLinux: process.platform === "linux",
+    isMac: process.platform === "darwin"
   }
+
+  //----------------Check for ROS
+  var checkForROS = function() {
+    const execSync = require('child_process').execSync;
+    return execSync('rosversion -d').toString();
+  }
+
+  that.consts.hasROS = checkForROS()
 
   that.path = function() {
     var p = that.consts.root
