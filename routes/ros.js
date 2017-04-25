@@ -9,6 +9,13 @@ const debug = require('debug')("snappy:core:ros")
 var child = null
 var isRunning = false
 
+var sendStatus = function(res) {
+  res.json({
+    isRunning: isRunning,
+    onBoot: _.config.ros_on_start
+  })
+}
+
 var runROS = function() {
   child = cp.spawn("roscore", [], {
     stdio: 'inherit'
@@ -68,9 +75,7 @@ var killROSCore = function(callback) {
 }
 
 router.get('/', function(req, res, next) {
-  res.json({
-    isRunning: (child && child.pid) ? true : false
-  })
+  sendStatus(res)
 })
 
 
@@ -78,15 +83,9 @@ router.get('/start', function(req, res, next) {
   debug("starting ROS core")
   if (!isRunning) {
     runROS()
-    setTimeout(function() {
-      res.json({
-        isRunning: isRunning
-      })
-    }, 100)
+    setTimeout(function() {}, 100)
   } else {
-    res.json({
-      isRunning: isRunning
-    })
+    sendStatus(res)
   }
 })
 
@@ -95,14 +94,24 @@ router.get('/stop', function(req, res, next) {
     debug("killing ROS core")
     killROSCore()
     setTimeout(function() {
-      res.json({
-        isRunning: isRunning
-      })
+      sendStatus(res)
     }, 100)
   } else {
-    res.json({
-      isRunning: isRunning
-    })
+    sendStatus(res)
+  }
+})
+
+router.get('/boot/:mode', function(req, res, next) {
+  if (req.params.mode == 'on') {
+    _.config.ros_on_start = true
+    _.saveConfig()
+    sendStatus(res)
+  } else if (req.params.mode == 'off') {
+    _.config.ros_on_start = false
+    _.saveConfig()
+    sendStatus(res)
+  } else {
+    res.sendStatus(403).end('wrong input')
   }
 })
 
