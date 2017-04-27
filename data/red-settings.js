@@ -41,6 +41,7 @@ module.exports = {
     },
     menu: { // Hide unwanted menu items by id. see editor/js/main.js:loadEditor for complete list
       // "menu-item-view-menu": false,
+      /*
       "menu-item-import": false,
       "menu-item-export": false,
       "menu-item-import-library": false,
@@ -56,7 +57,7 @@ module.exports = {
       "menu-item-help": {
         label: "View Help Online",
         url: "https://SnappyRobotics.github.io/docs/backend"
-      }
+      }*/
     }
   }
 }
