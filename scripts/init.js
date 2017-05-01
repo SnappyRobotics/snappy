@@ -47,13 +47,17 @@ var init = function() {
     ob.user = 'admin'
     ob.pass = passwordHash.generate('admin')
 
-    ob.authentication = true
+    ob.authentication = false
 
     ob.ros_on_start = true
 
     that.config = ob
 
-    fs.mkdirSync(userhome(".snappy-core"))
+    try {
+      fs.mkdirSync(userhome(".snappy-core"))
+    } catch (e) {
+
+    }
 
     fs.writeFileSync(that.consts.configFile, JSON.stringify(that.config))
 
