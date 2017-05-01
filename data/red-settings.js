@@ -4,10 +4,6 @@ module.exports = {
   httpAdminRoot: "/",
   httpNodeRoot: "/api",
   userDir: _.path("userDir", "red"),
-  nodesDir: [_.path('node_modules', 'snappy-ros'),
-    _.path('node_modules', 'snappy-logic-nodes'),
-    _.path('node_modules', 'snappy-io-nodes')
-  ],
   functionGlobalContext: {}, // enables global context,
   paletteCategories: [
     'subflows',
