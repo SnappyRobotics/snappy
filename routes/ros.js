@@ -115,7 +115,7 @@ router.get('/boot/:mode', function(req, res, next) {
   }
 })
 
-if (_.config.ros_on_start) {
+if (_.config.ros_on_start && _.consts.hasROS) {
   runROS()
 }
 
