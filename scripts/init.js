@@ -24,7 +24,11 @@ var init = function() {
   //----------------Check for ROS
   var checkForROS = function() {
     const execSync = require('child_process').execSync;
-    return execSync('rosversion -d').toString();
+    try {
+      return execSync('rosversion -d').toString();
+    } catch (e) {
+      return false
+    }
   }
 
   that.consts.hasROS = checkForROS()
